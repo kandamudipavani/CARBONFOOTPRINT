@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SDG 13: Climate Action</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-image: url('climate-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 10px;
+    }
+    h2, h3, p {
+      color: white;
+    }
+    .info-card {
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      border-radius: 10px;
+      backdrop-filter: blur(5px);
+    }
+    .highlight {
+      background-color: rgba(255, 255, 255, 0.3);
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mx-auto p-4">
+    <div class="overlay">
+      <h2 class="text-3xl font-semibold text-center">🌍 Goal 13: Climate Action</h2>
+      <p class="text-center mt-4">"Take urgent action to combat climate change and its impacts."</p>
+<p class="text-center mt-4">
+
+ Climate change is affecting every country. Rising temperatures, extreme weather, and biodiversity loss require immediate action.  
+          **Goal 13** aims to strengthen resilience and adaptive capacity to climate-related disasters.
+        
+</p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        <div class="info-card">
+          <h3 class="text-xl font-semibold">⚠️ Causes of Climate Change</h3>
+          <ul class="mt-2 list-disc pl-5">
+            <li>Burning fossil fuels (coal, oil, gas)</li>
+            <li>Deforestation and land-use changes</li>
+            <li>Industrial and agricultural emissions</li>
+            <li>Overconsumption and waste</li>
+          </ul>
+        </div>
+        
+        <div class="info-card">
+          <h3 class="text-xl font-semibold">🌪️ Effects of Climate Change</h3>
+          <ul class="mt-2 list-disc pl-5">
+            <li>Rising global temperatures</li>
+            <li>More frequent extreme weather events</li>
+            <li>Rising sea levels</li>
+            <li>Loss of biodiversity</li>
+            <li>Water and food shortages</li>
+          </ul>
+        </div>
+        
+        <div class="info-card">
+          <h3 class="text-xl font-semibold">✅ Solutions & Actions</h3>
+          <ul class="mt-2 list-disc pl-5">
+            <li>Switch to renewable energy sources</li>
+            <li>Improve energy efficiency</li>
+            <li>Reduce waste and increase recycling</li>
+            <li>Promote reforestation</li>
+            <li>Support sustainable practices</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="highlight mt-8 text-center p-6">
+        <h3 class="text-2xl font-semibold">🌱 What You Can Do?</h3>
+        <p class="mt-4">Reduce your carbon footprint by using sustainable transport, conserving energy, and supporting eco-friendly initiatives.</p>
+      </div>
+      
+      <div class="text-center mt-8">
+        <button onclick="window.location.href='carbon_calculator.html'" class="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          Calculate Your Carbon Footprint
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

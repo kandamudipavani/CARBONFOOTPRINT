@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carbon Footprint Calculator</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-image: url('hi.jpeg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+    
+    .container {
+      background-color: rgba(15, 15, 15, 0.9);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+    }
+    
+    h2, h3 {
+      color: #ffcc00;
+    }
+    
+    label {
+      color: #ff9933;
+      font-weight: bold;
+    }
+    
+    p, ul li {
+      color: #bbbbbb;
+    }
+
+    button {
+      background-color: #222;
+      color: white;
+      border: 1px solid #777;
+      padding: 10px 15px;
+      border-radius: 6px;
+      transition: 0.3s;
+    }
+    
+    button:hover {
+      background-color: #444;
+      border-color: #ffcc00;
+    }
+    
+    input, select {
+      background-color: #333;
+      color: white;
+      border: 1px solid #555;
+      padding: 8px;
+      border-radius: 6px;
+      width: 100%;
+    }
+    
+    input::placeholder {
+      color: #999;
+    }
+
+    canvas {
+      background-color: white;
+      border-radius: 8px;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container mx-auto p-4 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-semibold text-center">Carbon Footprint Calculator</h2>
+
+    <div class="mt-6 p-6 rounded-lg">
+      <label>Enter Your Name:</label>
+      <input type="text" id="userName" placeholder="Your Name">
+    </div>
+
+    <div class="mt-6 p-6 rounded-lg">
+      <label>Enter Your Daily Travel Distance (miles):</label>
+      <input type="number" id="travelDistance" placeholder="Distance in miles">
+
+      <label class="mt-4">Enter Your Electricity Usage (kWh per month):</label>
+      <input type="number" id="electricityUsage" placeholder="Electricity usage in kWh">
+
+      <label class="mt-4">Select Your Diet Type:</label>
+      <select id="dietType">
+        <option value="vegetarian">Vegetarian</option>
+        <option value="non-vegetarian">Non-Vegetarian</option>
+        <option value="mixed">Mixed</option>
+      </select>
+
+      <button onclick="calculateFootprint()" class="mt-4">Calculate Footprint</button>
+    </div>
+
+    <div id="resultSection" class="hidden mt-6 p-6 rounded-lg">
+      <h3 class="text-xl font-semibold">Your Carbon Footprint:</h3>
+      <p id="carbonResult"></p>
+      <canvas id="carbonChart" class="mt-4"></canvas>
+    </div>
+
+    <div id="suggestions" class="hidden mt-6 p-6 rounded-lg">
+      <h3 class="text-xl font-semibold">Suggestions to Reduce Your Footprint</h3>
+      <ul class="list-disc pl-6">
+        <li>Use public transport or carpool</li>
+        <li>Switch to energy-efficient appliances</li>
+        <li>Reduce meat consumption</li>
+        <li>Opt for renewable energy sources</li>
+        <li>Recycle and reduce waste</li>
+      </ul>
+    </div>
+
+    <div id="pledgeSection" class="hidden mt-6 p-6 rounded-lg">
+      <h3 class="text-xl font-semibold">Take a Pledge</h3>
+      <label><input type="checkbox"> Reduce daily travel emissions</label><br>
+      <label><input type="checkbox"> Conserve electricity</label><br>
+      <label><input type="checkbox"> Adopt eco-friendly habits</label><br>
+      <button onclick="submitPledge()" class="mt-4">Submit Pledge</button>
+    </div>
+
+    <div class="text-center mt-6">
+      <button onclick="downloadPDF()">Download your report here..!😊</button>
+    </div>
+  </div>
+
+  <script>
+    let carbonChart;
+
+    function calculateFootprint() {
+      const travel = parseFloat(document.getElementById('travelDistance').value) || 0;
+      const electricity = parseFloat(document.getElementById('electricityUsage').value) || 0;
+      const diet = document.getElementById('dietType').value;
+
+      let dietFactor = diet === 'vegetarian' ? 2.0 : diet === 'non-vegetarian' ? 3.5 : 2.5;
+      let footprint = (travel * 0.2) + (electricity * 0.5) + dietFactor;
+
+      document.getElementById('carbonResult').innerText = `Your estimated carbon footprint is ${footprint.toFixed(2)} tons CO2 per year.`;
+      document.getElementById('resultSection').classList.remove('hidden');
+      document.getElementById('suggestions').classList.remove('hidden');
+      document.getElementById('pledgeSection').classList.remove('hidden');
+
+      let ctx = document.getElementById('carbonChart').getContext('2d');
+
+      if (carbonChart) carbonChart.destroy();
+
+      carbonChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Travel', 'Electricity', 'Diet'],
+          datasets: [{
+            label: 'Carbon Footprint (tons CO2)',
+            data: [(travel * 0.2), (electricity * 0.5), dietFactor],
+            backgroundColor: ['#ffcc00', '#60a5fa', '#34d399']
+          }]
+        }
+      });
+    }
+
+    function submitPledge() {
+      alert("Thank you for taking the pledge to reduce your carbon footprint!");
+    }
+
+    function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('p', 'mm', 'a4');
+
+      html2canvas(document.querySelector(".container"), {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: null
+      }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = 190;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+        doc.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+        doc.save("carbon_footprint_report.pdf");
+      });
+    }
+  </script>
+</body>
+
+</html>
